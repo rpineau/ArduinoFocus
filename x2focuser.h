@@ -40,6 +40,7 @@ class TickCountInterface;
 #define CHILD_KEY_PORTNAME	"PortName"
 #define POS_LIMIT           "PosLimit"
 #define POS_LIMIT_ENABLED   "PosLimitEnable"
+#define DIR_REVERSED        "DirReversed"
 #define CONTINUOUS_HOLD_ENABLED   "ContinuousHoldEnable"
 
 #if defined(SB_WIN_BUILD)
@@ -170,7 +171,7 @@ private:
     CArduinoFocus                           m_ArduinoFocus;
     bool                                    mUiEnabled;
     bool                                    m_bContinous;
-
+    bool                                    m_bReversed;
 };
 
 

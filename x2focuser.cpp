@@ -29,6 +29,7 @@ X2Focuser::X2Focuser(const char* pszDisplayName,
         m_ArduinoFocus.setPosLimit(m_pIniUtil->readInt(PARENT_KEY, POS_LIMIT, 999999)); // default for this focuser
         m_ArduinoFocus.enablePosLimit(m_pIniUtil->readInt(PARENT_KEY, POS_LIMIT_ENABLED, true));
         m_bContinous = m_pIniUtil->readInt(PARENT_KEY, CONTINUOUS_HOLD_ENABLED, false);
+        m_bReversed = m_pIniUtil->readInt(PARENT_KEY, DIR_REVERSED, false);
     }
 	m_ArduinoFocus.SetSerxPointer(m_pSerX);
 	m_ArduinoFocus.setLogger(m_pLogger);
@@ -146,6 +147,7 @@ int	X2Focuser::establishLink(void)
         m_bLinked = true;
 
     m_ArduinoFocus.setContinuousHold(m_bContinous);
+    m_ArduinoFocus.setRevereDir(m_bReversed);
     return nErr;
 }
 
@@ -183,8 +185,6 @@ int	X2Focuser::execModalSettingsDialog(void)
     bool bLimitEnabled = false;
     int nPosition = 0;
     int nPosLimit = 0;
-    bool bReverse = false;
-    bool bContinuousHold = false;
     mUiEnabled = false;
 
     if (NULL == ui)
@@ -207,13 +207,12 @@ int	X2Focuser::execModalSettingsDialog(void)
         dx->setEnabled("pushButtonSet2", true);
         dx->setPropertyInt("newPos", "value", nPosition);
         dx->setEnabled("reverseDir", true);
-        m_ArduinoFocus.getReverseDir(bReverse);
-        dx->setChecked("reverseDir", bReverse);
+        m_ArduinoFocus.getReverseDir(m_bReversed);
+        dx->setChecked("reverseDir", m_bReversed);
 
         dx->setEnabled("continuousHold", true);
-        m_ArduinoFocus.getContinuousHold(bContinuousHold);
-
-        dx->setChecked("continuousHold", bContinuousHold);
+        m_ArduinoFocus.getContinuousHold(m_bContinous);
+        dx->setChecked("continuousHold", m_bContinous);
 }
     else {
         // disable all controls
@@ -253,16 +252,17 @@ int	X2Focuser::execModalSettingsDialog(void)
         } else {
             m_ArduinoFocus.enablePosLimit(false);
         }
-        bReverse = dx->isChecked("reverseDir");
-        nErr |= m_ArduinoFocus.setRevereDir(bReverse);
+        m_bReversed = dx->isChecked("reverseDir");
+        nErr |= m_ArduinoFocus.setRevereDir(m_bReversed);
 
-        bContinuousHold = dx->isChecked("continuousHold");
-        nErr |= m_ArduinoFocus.setContinuousHold(bContinuousHold);
+        m_bContinous = dx->isChecked("continuousHold");
+        nErr |= m_ArduinoFocus.setContinuousHold(m_bContinous);
 
         // save values to config
         nErr |= m_pIniUtil->writeInt(PARENT_KEY, POS_LIMIT, nPosLimit);
         nErr |= m_pIniUtil->writeInt(PARENT_KEY, POS_LIMIT_ENABLED, bLimitEnabled);
-        nErr |= m_pIniUtil->writeInt(PARENT_KEY, CONTINUOUS_HOLD_ENABLED, bContinuousHold);
+        nErr |= m_pIniUtil->writeInt(PARENT_KEY, DIR_REVERSED, m_bReversed);
+        nErr |= m_pIniUtil->writeInt(PARENT_KEY, CONTINUOUS_HOLD_ENABLED, m_bContinous);
     }
     return nErr;
 }
