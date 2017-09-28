@@ -1,0 +1,5 @@
+G# - returns current position (e.g. P 1234;M false#) at position 1234 and not currently moving
+P 1234#  - saves the current position as 1234
+M 5678# - moves the focuser to position 5678 (Note: absolute position, NOT number of steps to move) 
+R 0# or R 1#  - Toggles the direction.  Reference: R 0 turns motor counterclockwise with increasing position (looking at back of motor, easier to visualize direction when mounted on OTA).  
+C 0# continuous hold off, C 1# on.  This can be used to hold the focuser in place but consumes power if running from battery.  Also make sure your current limit is set properly on your stepper driver. 
