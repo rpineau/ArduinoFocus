@@ -30,7 +30,7 @@ CArduinoFocus::CArduinoFocus()
 #ifdef	ArduinoFocus_DEBUG
 	Logfile = fopen(ArduinoFocus_LOGFILENAME, "w");
 	ltime = time(NULL);
-	char *timestamp = asctime(localtime(&ltime));
+	timestamp = asctime(localtime(&ltime));
 	timestamp[strlen(timestamp) - 1] = 0;
 	fprintf(Logfile, "[%s] CArduinoFocus Constructor Called.\n", timestamp);
 	fflush(Logfile);
