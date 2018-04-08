@@ -67,3 +67,4 @@ begin
     RaiseException('The SkyX installation directory ' + Location + ' does not exist');
   Result := Location;
 end;
+
