@@ -30,7 +30,7 @@ CArduinoFocus::CArduinoFocus()
 #ifdef	ArduinoFocus_DEBUG
 	Logfile = fopen(ArduinoFocus_LOGFILENAME, "w");
 	ltime = time(NULL);
-	char *timestamp = asctime(localtime(&ltime));
+	timestamp = asctime(localtime(&ltime));
 	timestamp[strlen(timestamp) - 1] = 0;
 	fprintf(Logfile, "[%s] CArduinoFocus Constructor Called.\n", timestamp);
 	fflush(Logfile);
@@ -61,14 +61,15 @@ int CArduinoFocus::Connect(const char *pszPort)
 	fflush(Logfile);
 #endif
 
-    // 19200 8N1
-    if(m_pSerx->open(pszPort, 9600, SerXInterface::B_NOPARITY, "-DTR_CONTROL 1") == 0)
+    // 9600 8N1
+    nErr = m_pSerx->open(pszPort, 9600, SerXInterface::B_NOPARITY, "-DTR_CONTROL 1");
+    if(nErr == 0)
         m_bIsConnected = true;
     else
         m_bIsConnected = false;
 
     if(!m_bIsConnected)
-        return ERR_COMMNOLINK;
+        return nErr;
 
     m_pSleeper->sleep(2000);
 
