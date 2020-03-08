@@ -4,7 +4,7 @@ PACKAGE_NAME="ArduinoFocus_X2.pkg"
 BUNDLE_NAME="org.rti-zone.ArduinoFocusX2"
 
 if [ ! -z "$app_id_signature" ]; then
-    codesign -s "$app_id_signature" ../build/Release/libArduinoFocus.dylib
+    codesign -f -s "$app_id_signature" --verbose ../build/Release/libArduinoFocus.dylib
 fi
 
 mkdir -p ROOT/tmp/ArduinoFocus_X2/
