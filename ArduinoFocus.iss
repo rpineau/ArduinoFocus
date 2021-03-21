@@ -40,13 +40,20 @@ DirExistsWarning=no
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
+[Dirs]
+Name: "{app}\Plugins\FocuserPlugins";
+Name: "{app}\Plugins64\FocuserPlugins";
+
 [Files]
 ; WIll also need to customise these!
-Source: "focuserlist ArduinoFocus.txt"; DestDir: "{app}\Miscellaneous Files"; Flags: ignoreversion
-Source: "libArduinoFocus\Release\libArduinoFocus.dll"; DestDir: "{app}\Plugins\FocuserPlugins"; Flags: ignoreversion
-Source: "ArduinoFocus.ui"; DestDir: "{app}\Plugins\FocuserPlugins"; Flags: ignoreversion
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-; msgBox('Do you want to install MyProg.exe to ' + ExtractFilePath(CurrentFileName) + '?', mbConfirmation, MB_YESNO)
+Source: "focuserlist ArduinoFocus.txt";                         DestDir: "{app}\Miscellaneous Files"; Flags: ignoreversion
+Source: "focuserlist ArduinoFocus.txt";                         DestDir: "{app}\Miscellaneous Files"; DestName: "focuserlist64 ArduinoFocus.txt"; Flags: ignoreversion
+;32 bits
+Source: "libArduinoFocus\Win32\Release\libArduinoFocus.dll";    DestDir: "{app}\Plugins\FocuserPlugins"; Flags: ignoreversion
+Source: "ArduinoFocus.ui";                                      DestDir: "{app}\Plugins\FocuserPlugins"; Flags: ignoreversion
+;64 bits
+Source: "libArduinoFocus\x64\Release\libArduinoFocus.dll";      DestDir: "{app}\Plugins64\FocuserPlugins"; Flags: ignoreversion; Check: DirExists(ExpandConstant('{app}\Plugins64\FocuserPlugins'))
+Source: "ArduinoFocus.ui";                                      DestDir: "{app}\Plugins64\FocuserPlugins"; Flags: ignoreversion; Check: DirExists(ExpandConstant('{app}\Plugins64\FocuserPlugins'))
 
 [Code]
 {* Below is a function to read TheSkyXInstallPath.txt and confirm that the directory does exist
